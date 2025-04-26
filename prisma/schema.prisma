@@ -1,0 +1,15 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Routes {
+  id           Int    @id @default(autoincrement())
+  url_generate String
+  url_send     String
+  day_generate DateTime
+}

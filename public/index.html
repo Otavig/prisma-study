@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Encurtador de URL</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        .input-group {
+            display: flex;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        #inp_url {
+            padding: 15px;
+            border: none;
+            flex-grow: 1;
+            font-size: 16px;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 0;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #display {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #e9ecef;
+            border-radius: 8px;
+            font-size: 16px;
+            color: #495057;
+            white-space: pre-wrap;
+            text-align: left;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Encurte sua URL</h1>
+        <div class="input-group">
+            <input id="inp_url" type="text" placeholder="Digite a URL completa">
+            <button onclick="enviar()">Encurtar</button>
+        </div>
+        <p id="display"></p>
+    </div>
+
+    <script>
+        async function enviar() {
+            let url = document.getElementById("inp_url").value;
+
+            let res = await fetch("http://localhost:3000/og", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ route: url })
+            })
+
+            let data = await res.json();
+
+            document.getElementById("display").innerText = JSON.stringify(data, null, 2);
+            document.getElementById("inp_url").value = "";
+        }
+    </script>
+</body>
+</html>
